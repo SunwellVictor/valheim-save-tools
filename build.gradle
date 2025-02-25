@@ -10,6 +10,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation 'commons-cli:commons-cli:1.5.0'
+}
+
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
