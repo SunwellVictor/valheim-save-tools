@@ -42,12 +42,10 @@ shadowJar {
 
     mergeServiceFiles()
 
-    dependencies {
-        include(dependency('commons-cli:commons-cli'))
-    }
-
     manifest {
-        attributes 'Main-Class': 'net.kakoen.valheim.cli.SaveToolsCLI'
+        attributes(
+            'Main-Class': 'net.kakoen.valheim.cli.SaveToolsCLI'
+        )
     }
 }
 
