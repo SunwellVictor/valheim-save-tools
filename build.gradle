@@ -11,9 +11,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'commons-cli:commons-cli:1.5.0'
-}
+    implementation 'commons-cli:commons-cli:1.5.0'  // Kept stable version
+    implementation project(':valheim-save-tools-lib')
+    implementation 'org.slf4j:slf4j-simple:2.0.13'
 
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
 
 java {
     toolchain {
@@ -21,33 +31,23 @@ java {
     }
 }
 
-dependencies {
-    implementation project(':valheim-save-tools-lib')
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.13'
-    implementation group: 'commons-cli', name: 'commons-cli', version: '1.8.0'
-
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
-
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
-
 test {
     useJUnitPlatform()
 }
 
-jar {
-    finalizedBy shadowJar
+shadowJar {
+    archiveBaseName.set('valheim-save-tools')
+    archiveClassifier.set('')
+    archiveVersion.set('1.1.4')
+
+    mergeServiceFiles()
+
     manifest {
         attributes 'Main-Class': 'net.kakoen.valheim.cli.SaveToolsCLI'
     }
 }
 
-shadowJar {
-    from 'simplelogger.properties'
-    archiveFileName.set("${project.name}.jar")
+jar {
+    dependsOn shadowJar
 }
+
